@@ -15,7 +15,7 @@ class PokemonCell: UITableViewCell{
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        accessoryType = .disclosureIndicator
+//        accessoryType = .disclosureIndicator
         contentView.addSubview(iconImageView)
         contentView.addSubview(nameLabel)
     }
@@ -26,6 +26,8 @@ class PokemonCell: UITableViewCell{
     
     func configure(width pokemon: Pokemon) {
         nameLabel.text = pokemon.name.capitalized
+        nameLabel.translatesAutoresizingMaskIntoConstraints = false
+        iconImageView.translatesAutoresizingMaskIntoConstraints = false
         
         if let url = pokemon.imageUrl {
             URLSession.shared.dataTask(with: url) { data, _, _ in
@@ -36,5 +38,13 @@ class PokemonCell: UITableViewCell{
                 }
             }.resume()
         }
+        
+        NSLayoutConstraint.activate([
+            nameLabel.topAnchor.constraint(equalTo: self.topAnchor),
+            nameLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor)
+
+        ])
+     
+        
     }
 }

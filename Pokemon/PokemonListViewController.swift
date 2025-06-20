@@ -7,7 +7,7 @@
 
 import UIKit
 
-class PokemonListViewController: UIViewController, UITableViewDataSource {
+class PokemonListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     let tableView = UITableView()
     let viewModel = PokemonListViewModel()
 
@@ -18,10 +18,16 @@ class PokemonListViewController: UIViewController, UITableViewDataSource {
         tableView.frame = view.bounds
         tableView.register(PokemonCell.self, forCellReuseIdentifier: PokemonCell.identifier)
         tableView.dataSource = self
+        tableView.delegate = self
+        tableView.translatesAutoresizingMaskIntoConstraints = false
 
         viewModel.load {
             self.tableView.reloadData()
         }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        300
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
