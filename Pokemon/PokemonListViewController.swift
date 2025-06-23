@@ -27,7 +27,7 @@ class PokemonListViewController: UIViewController, UITableViewDataSource, UITabl
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        300
+        250
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
