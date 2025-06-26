@@ -41,4 +41,39 @@ class PokemonListViewController: UIViewController, UITableViewDataSource, UITabl
         cell.configure(width: viewModel.pokemons[indexPath.row])
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selectedPokemon = viewModel.pokemons[indexPath.row]
+        fetchPokemonDetail(named: selectedPokemon.name) { detail in
+            guard let detail = detail else { return }
+            DispatchQueue.main.async {
+                let detailVC = PokemonDetailViewController()
+                detailVC.pokemonDetail = detail
+                self.navigationController?.pushViewController(detailVC, animated: true)
+            }
+        }
+    }
+    
+    func fetchPokemonDetail(named name: String, completion: @escaping (PokemonDetail?) -> Void) {
+        let urlString = "https://pokeapi.co/api/v2/pokemon/\(name.lowercased())"
+        guard let url = URL(string: urlString) else {
+            completion(nil)
+            return
+        }
+
+        URLSession.shared.dataTask(with: url) { data, _, error in
+            guard let data = data, error == nil else {
+                completion(nil)
+                return
+            }
+
+            do {
+                let detail = try JSONDecoder().decode(PokemonDetail.self, from: data)
+                completion(detail)
+            } catch {
+                print("Erro ao decodificar JSON:", error)
+                completion(nil)
+            }
+        }.resume()
+    }
 }
