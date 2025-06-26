@@ -7,9 +7,14 @@
 
 import Foundation
 
+enum NetworkErrors: Error {
+    case url
+    case request
+}
+
 class Service {
     private let baseURL: String = ""
-    
+
     func fetchPokemons(completion: @escaping ([Pokemon]) -> Void){
         let url = URL(string: "https://pokeapi.co/api/v2/pokemon")!
         
@@ -25,4 +30,5 @@ class Service {
             }
         }.resume()
     }
+    
 }
